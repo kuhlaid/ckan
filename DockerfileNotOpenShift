@@ -1,5 +1,5 @@
 # See CKAN docs on installation from Docker Compose on usage
-FROM openshift/ubi8-openjdk-11-runtime:1.10
+FROM ubuntu:focal AS base
 MAINTAINER Open Knowledge
 
 # Set timezone
