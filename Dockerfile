@@ -1,5 +1,5 @@
 # See CKAN docs on installation from Docker Compose on usage
-FROM openshift/ubi8-openjdk-11-runtime:1.10 AS base
+FROM openshift/ubi8-openjdk-11-runtime:1.10
 MAINTAINER Open Knowledge
 
 # Set timezone
@@ -69,7 +69,7 @@ RUN ckan-pip3 install -U pip && \
     chmod +x /ckan-entrypoint.sh && \
     chown -R ckan:ckan $CKAN_HOME $CKAN_VENV $CKAN_CONFIG $CKAN_STORAGE_PATH
 
-FROM base AS test
+FROM openshift/ubi8-openjdk-11-runtime:1.10
 RUN ckan-pip3 install -r $CKAN_VENV/src/ckan/dev-requirements.txt && \
     ckan-pip3 install pytest-ckan && \
     cp -v $CKAN_VENV/src/ckan/contrib/docker/ckan-test-entrypoint.sh /ckan-test-entrypoint.sh && \
@@ -79,7 +79,7 @@ WORKDIR $CKAN_VENV/src/ckan/
 ENTRYPOINT ["/ckan-test-entrypoint.sh"]
 CMD ["python", "-m", "pytest", "-v"]
 
-FROM base AS prod
+FROM openshift/ubi8-openjdk-11-runtime:1.10
 
 ENTRYPOINT ["/ckan-entrypoint.sh"]
 
